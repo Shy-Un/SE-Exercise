@@ -1,11 +1,15 @@
-import numpy as np
 import heapq
+
+import numpy as np
+
 
 # Design Part - Carpet Design Similarity
 def find_similar_carpet(input_map, carpet_maps, num_similar):
     similarity_scores = []
     for i, carpet in enumerate(carpet_maps):
-        similarity = np.sum(input_map == carpet) / (input_map.shape[0] * input_map.shape[1])
+        similarity = np.sum(input_map == carpet) / (
+            input_map.shape[0] * input_map.shape[1]
+        )
         similarity_scores.append((i, similarity))
 
     similarity_scores.sort(key=lambda x: x[1], reverse=True)
@@ -20,7 +24,10 @@ def find_affordable_carpets(carpet_prices, max_budget):
     for i in range(1, n + 1):
         for j in range(1, max_budget + 1):
             if carpet_prices[i - 1] <= j:
-                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - carpet_prices[i - 1]] + carpet_prices[i - 1])
+                dp[i][j] = max(
+                    dp[i - 1][j],
+                    dp[i - 1][j - carpet_prices[i - 1]] + carpet_prices[i - 1]
+                )
             else:
                 dp[i][j] = dp[i - 1][j]
 
@@ -36,7 +43,7 @@ def find_affordable_carpets(carpet_prices, max_budget):
 
 # Routing Part - Find Nearest Factory Outlet
 def find_shortest_path(graph, start, destination):
-    distances = {vertex: float('inf') for vertex in graph}
+    distances = {vertex: float("inf") for vertex in graph}
     distances[start] = 0
     previous_vertices = {vertex: None for vertex in graph}
 
@@ -70,64 +77,34 @@ def find_shortest_path(graph, start, destination):
 
 
 # Example usage
-input_map = np.array([
-    [1, 1, 0, 0],
-    [1, 1, 0, 0],
-    [0, 0, 1, 1],
-    [0, 0, 1, 1]
-])
+input_map = np.array([[1, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 1], [0, 0, 1, 1]])
 
 carpet_maps = [
-    np.array([
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        [0, 0, 1, 1],
-        [0, 0, 1, 1]
-    ]),
-    np.array([
-        [1, 0, 0, 1],
-        [1, 0, 0, 1],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0]
-    ]),
-    np.array([
-        [1, 1, 1, 1],
-        [0, 0, 0, 0],
-        [1, 1, 1, 1],
-        [0, 0, 0, 0]
-    ]),
-    np.array([
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0]
-    ]),
-    np.array([
-        [1, 0, 0, 1],
-        [1, 0, 0, 1],
-        [1, 0, 0, 1],
-        [1, 0, 0, 1]
-    ])
+    np.array([[1, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 1], [0, 0, 1, 1]]),
+    np.array([[1, 0, 0, 1], [1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 0]]),
+    np.array([[1, 1, 1, 1], [0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0]]),
+    np.array([[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]]),
+    np.array([[1, 0, 0, 1], [1, 0, 0, 1], [1, 0, 0, 1], [1, 0, 0, 1]]),
 ]
 
 carpet_prices = [200, 150, 300]
 budget = 500
 
 map_graph = {
-    'Intersection1': {'Intersection2': 10, 'Intersection3': 5},
-    'Intersection2': {'Intersection1': 10, 'Intersection4': 1},
-    'Intersection3': {'Intersection1': 5, 'Intersection4': 5},
-    'Intersection4': {'Intersection2': 1, 'Intersection3': 5, 'Intersection5': 3},
-    'Intersection5': {'Intersection4': 3}
+    "Intersection1": {"Intersection2": 10, "Intersection3": 5},
+    "Intersection2": {"Intersection1": 10, "Intersection4": 1},
+    "Intersection3": {"Intersection1": 5, "Intersection4": 5},
+    "Intersection4": {"Intersection2": 1, "Intersection3": 5, "Intersection5": 3},
+    "Intersection5": {"Intersection4": 3},
 }
 
 branches = {
-    'Branch1': 'Intersection2',
-    'Branch2': 'Intersection4',
-    'Branch3': 'Intersection5'
+    "Branch1": "Intersection2",
+    "Branch2": "Intersection4",
+    "Branch3": "Intersection5",
 }
-user_location = 'Intersection5'
-destination_branch = 'Branch2'
+user_location = "Intersection5"
+destination_branch = "Branch2"
 
 
 # Carpet Design Similarity
@@ -139,8 +116,10 @@ affordable_carpets = find_affordable_carpets(carpet_prices, max_budget=budget)
 print(f"Affordable Carpets: {affordable_carpets}")
 
 # Find Nearest Factory Outlet
-path_to_branch = find_shortest_path(map_graph, user_location, branches[destination_branch])
+path_to_branch = find_shortest_path(
+    map_graph, user_location, branches[destination_branch]
+)
 
 # Print Path to the Destination Branch
-print("Path to the Branch:", ' -> '.join(path_to_branch))
+print("Path to the Branch:", " -> ".join(path_to_branch))
 
