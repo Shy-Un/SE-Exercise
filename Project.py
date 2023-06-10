@@ -26,7 +26,8 @@ def find_affordable_carpets(carpet_prices, max_budget):
             if carpet_prices[i - 1] <= j:
                 dp[i][j] = max(
                     dp[i - 1][j],
-                    dp[i - 1][j - carpet_prices[i - 1]] + carpet_prices[i - 1],                )
+                    dp[i - 1][j - carpet_prices[i - 1]] + carpet_prices[i - 1],
+                )
             else:
                 dp[i][j] = dp[i - 1][j]
 
